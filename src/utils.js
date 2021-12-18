@@ -24,3 +24,12 @@ export function getLocationName(event) {
 export function getLocationSelected(event) {
     return event.target.attributes['aria-checked'].value === 'true';
 }
+
+export function slugify(str) {
+    return str
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/[\s_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
