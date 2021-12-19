@@ -5,6 +5,14 @@
 .App {
   height: 100vh;
 
+  .found {
+    fill: green!important;
+  }
+
+  .fail {
+    fill: red!important;
+  }
+
   .background-image {
     position: fixed;
     left: 0;
@@ -55,6 +63,16 @@
     border: 2px solid #f1f1f1;
     background-color: rgba(0,0,0, 0.6);
     overflow: hidden;
+
+    .map-location-tooltip {
+      position: fixed;
+      width: 200px;
+      padding: 10px;
+      border: 2px solid black;
+      background-color: white;
+      text-align: center;
+      font-weight: bold;
+    }
 
     svg {
       height: 700px;
