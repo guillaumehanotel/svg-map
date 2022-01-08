@@ -8,7 +8,13 @@ import {getMapBySlug} from "../data";
 function Map() {
 
     const params = useParams();
-    const map = getMapBySlug(params.mapSlug);
+    const ignoredStates = ['gu', 'vi', 'pr', 'mp', 'as', 'dc']
+    let map = getMapBySlug(params.mapSlug);
+    map = {
+        ...map,
+        locations : map.locations.filter(location => !ignoredStates.includes(location.id))
+    }
+
     const mapLocations = (map.locations.map(location => location.name));
     const MAX_TRIES = 3;
     const defaultTooptipStyle = {
@@ -62,16 +68,12 @@ function Map() {
         const isSuccess = clickedLocation === requestedLocation;
 
         if (isSuccess) {
-            
             setScore(prevState => prevState + 10);
             setLocations(prevState => ({
                 ...prevState,
                 [clickedLocation]: true
             }))
             document.querySelector(`#${requestedLocationId}`).classList.add('found');
-            setTries(0);
-            setRequestedLocation(getRandomUncheckedLocations());
-            
         } else {
             setTries(prevState => prevState + 1);
             if (tries + 1 === MAX_TRIES) {
@@ -80,8 +82,6 @@ function Map() {
                     ...prevState,
                     [requestedLocation]: true
                 }))
-                setRequestedLocation(getRandomUncheckedLocations());
-                setTries(0);
             }
             setScore(prevState => prevState - 5);
         }
@@ -89,11 +89,10 @@ function Map() {
         setSelectedLocation(clickedLocation);
     }
 
-
-
     useEffect(() => {
         setRequestedLocation(getRandomUncheckedLocations());
-    }, []);
+        setTries(0);
+    }, [locations])
 
     // const handleOnChange = (locations) => {
     //     const locationNames = locations.map((location) => location.ariaLabel);
